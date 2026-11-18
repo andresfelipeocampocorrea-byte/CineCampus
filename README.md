@@ -2,9 +2,11 @@
 
 ## 1. Descripción del proyecto
 
-CineCampus es una aplicación web desarrollada como proyecto final de la técnica Full Stack. Permite consultar películas mediante la API de The Movie Database (TMDB), visualizar información detallada y administrar una lista personal de películas favoritas.
+CineCampus es una aplicación web desarrollada como proyecto final del programa Técnico Laboral en Programación y Desarrollo de Aplicaciones Móviles.
 
-La aplicación cuenta con un frontend desarrollado en React, un backend construido con Node.js y Express, y una base de datos MySQL para almacenar los favoritos de los usuarios.
+Su objetivo es permitir a los usuarios buscar películas mediante la API de The Movie Database (TMDB), consultar información detallada y administrar una colección personal de películas favoritas.
+
+El proyecto utiliza una arquitectura Full Stack compuesta por un frontend desarrollado con React, un backend construido con Node.js y Express, y una base de datos MySQL para almacenar los favoritos.
 
 ## 2. Tecnologías utilizadas
 
@@ -31,6 +33,10 @@ La aplicación cuenta con un frontend desarrollado en React, un backend construi
 ### API externa
 - The Movie Database (TMDB).
 
+### Control de versiones
+- Git.
+- GitHub.
+
 ## 3. Estructura del proyecto
 
 ```text
@@ -39,14 +45,11 @@ CineCampus/
 ├── backend/
 │   ├── config/
 │   │   └── db.js
-│   │
 │   ├── database/
 │   │   └── cinecampus.sql
-│   │
 │   ├── routes/
 │   │   ├── favoritos.js
 │   │   └── peliculas.js
-│   │
 │   ├── .env
 │   ├── .gitignore
 │   ├── index.js
@@ -54,45 +57,71 @@ CineCampus/
 │
 ├── frontend/
 │   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
 │   │   ├── services/
 │   │   │   └── api.js
 │   │   ├── App.jsx
+│   │   ├── App.css
 │   │   ├── index.css
 │   │   └── main.jsx
-│   │
 │   ├── package.json
-│   └── ...
+│   └── vite.config.js
 │
+├── .gitignore
 └── README.md
 ```
 
-## 4. Instalación y configuración
+**Nota:** El archivo `.env` se crea localmente durante la configuración y no se publica en GitHub porque contiene información privada.
 
-### Requisitos previos
+## 4. Requisitos previos
 
-- Node.js instalado.
-- XAMPP instalado.
-- MySQL iniciado desde XAMPP.
-- Visual Studio Code.
-- Una API Key de TMDB.
+Para instalar y ejecutar el proyecto se necesita:
 
-### Configuración de la base de datos
+- Node.js y npm.
+- XAMPP.
+- MySQL.
+- Visual Studio Code o un editor de código.
+- Una cuenta y una API Key de TMDB.
 
-1. Abrir XAMPP e iniciar Apache y MySQL.
+## 5. Instalación y configuración
+
+### 5.1. Obtener el proyecto
+
+Clonar el repositorio desde GitHub:
+
+```bash
+git clone https://github.com/andresfelipeocampocorrea-byte/CineCampus.git
+```
+
+Ingresar a la carpeta:
+
+```bash
+cd CineCampus
+```
+
+### 5.2. Configurar la base de datos
+
+1. Abrir XAMPP e iniciar los servicios de Apache y MySQL.
 2. Ingresar a phpMyAdmin.
-3. Crear la base de datos `cinecampus`, o ejecutar el archivo `backend/database/cinecampus.sql`.
-4. Verificar que exista la tabla `favoritos`.
+3. Importar el archivo `backend/database/cinecampus.sql`.
+4. Verificar que se haya creado la base de datos `cinecampus` y la tabla `favoritos`.
 
-### Configuración del backend
+### 5.3. Configurar el backend
 
-1. Abrir una terminal dentro de la carpeta `backend`.
-2. Instalar las dependencias:
+Abrir una terminal dentro de la carpeta `backend`:
+
+```bash
+cd backend
+```
+
+Instalar las dependencias:
 
 ```bash
 npm install
 ```
 
-3. Crear el archivo `.env` con la siguiente configuración:
+Crear un archivo llamado `.env` dentro de `backend` con esta configuración:
 
 ```env
 PORT=3001
@@ -103,20 +132,25 @@ DB_NAME=cinecampus
 TMDB_API_KEY=TU_API_KEY
 ```
 
-4. Reemplazar `TU_API_KEY` por la clave personal obtenida en TMDB.
+Reemplazar `TU_API_KEY` por la clave personal obtenida en TMDB. Si la instalación local de MySQL tiene contraseña, configurar `DB_PASSWORD` con ella.
 
-### Configuración del frontend
+### 5.4. Configurar el frontend
 
-1. Abrir otra terminal dentro de la carpeta `frontend`.
-2. Instalar las dependencias:
+Abrir otra terminal dentro de la carpeta `frontend`:
+
+```bash
+cd frontend
+```
+
+Instalar las dependencias:
 
 ```bash
 npm install
 ```
 
-## 5. Ejecución del proyecto
+## 6. Ejecución del proyecto
 
-Es necesario mantener abiertas dos terminales.
+Para utilizar CineCampus se deben mantener abiertas dos terminales.
 
 ### Iniciar el backend
 
@@ -146,7 +180,7 @@ Vite mostrará la dirección local para abrir la aplicación en el navegador, no
 http://localhost:5173
 ```
 
-## 6. Rutas del backend
+## 7. Rutas del backend
 
 ### Estado del servidor
 
@@ -171,27 +205,59 @@ http://localhost:5173
 | PUT | `/api/favoritos/:id` | Actualiza el comentario y la calificación de un favorito. |
 | DELETE | `/api/favoritos/:id` | Elimina un favorito. |
 
-## 7. Funcionalidades principales
+## 8. Funcionalidades principales
 
-- Buscar películas utilizando la API de TMDB.
-- Visualizar películas mediante tarjetas.
-- Consultar información detallada de cada película.
-- Guardar películas en favoritos.
-- Consultar la lista de favoritos almacenados en MySQL.
-- Evitar el registro duplicado de películas favoritas.
-- Editar comentarios y calificaciones.
-- Eliminar películas de favoritos.
-- Mostrar mensajes de confirmación y error.
+- Búsqueda de películas mediante la API de TMDB.
+- Visualización de películas mediante tarjetas.
+- Consulta de información detallada de cada película.
+- Registro de películas favoritas.
+- Consulta de favoritos almacenados en MySQL.
+- Validación para evitar películas favoritas duplicadas.
+- Edición de comentarios y calificaciones.
+- Eliminación de películas favoritas.
+- Mensajes de confirmación y error.
+- Indicador del estado de conexión del servidor y la base de datos.
 - Interfaz adaptable a diferentes tamaños de pantalla.
 
-## 8. Seguridad y configuración
+## 9. Base de datos
 
-El archivo `.env` contiene las credenciales de conexión y la API Key de TMDB. Este archivo no debe publicarse en GitHub.
+La base de datos se llama `cinecampus` y contiene la tabla `favoritos`.
 
-El proyecto utiliza `.gitignore` para excluir archivos y carpetas que no deben incluirse en el repositorio, como `.env` y `node_modules`.
+| Campo | Tipo | Descripción |
+|---|---|---|
+| id | INT | Identificador único del favorito. |
+| titulo_pelicula | VARCHAR(150) | Nombre de la película. |
+| poster_url | TEXT | Dirección de la imagen del póster. |
+| comentario | TEXT | Comentario del usuario. |
+| calificacion | INT | Calificación asignada. |
+| fecha_registro | TIMESTAMP | Fecha de registro del favorito. |
 
-## 9. Autor
+## 10. Seguridad
 
-Proyecto desarrollado como trabajo final de la técnica Full Stack.
+El archivo `.env` almacena las credenciales de conexión a MySQL y la API Key de TMDB. Por seguridad, no debe publicarse en GitHub.
 
-**Tecnologías:** React, Node.js, Express y MySQL.
+Los archivos `.gitignore` excluyen elementos privados o innecesarios, como las variables de entorno y las carpetas `node_modules`.
+
+## 11. Autor
+
+**Andrés Felipe Ocampo Correa**
+
+Institución: Instituto Técnico Iberoamericano S.A.S.
+
+Programa: Técnico Laboral en Programación y Desarrollo de Aplicaciones Móviles.
+
+Proyecto académico: CineCampus.
+
+Ciudad: Medellín, Colombia.
+
+Fecha: 17 de noviembre de 2026.
+
+## 12. Créditos y referencias
+
+- React: https://react.dev/
+- Node.js: https://nodejs.org/
+- Express: https://expressjs.com/
+- MySQL: https://www.mysql.com/
+- Axios: https://axios-http.com/
+- Vite: https://vite.dev/
+- The Movie Database (TMDB): https://www.themoviedb.org/
