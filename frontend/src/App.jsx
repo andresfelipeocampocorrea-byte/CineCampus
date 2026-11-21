@@ -21,8 +21,33 @@ function App() {
     const [cargandoDetalle, setCargandoDetalle] = useState(false);
     const [errorDetalle, setErrorDetalle] = useState('');
 
-    // Estado de la conexion con el servidor
     const [estadoServidor, setEstadoServidor] = useState('comprobando');
+    const [tituloCatalogo, setTituloCatalogo] = useState('Peliculas populares');
+
+    // Cargar peliculas populares desde TMDB
+    const cargarPeliculasPopulares = async () => {
+        try {
+            setCargando(true);
+            setError('');
+            setMensaje('');
+            setTituloCatalogo('Peliculas populares');
+
+            const respuesta = await api.get('/peliculas/populares');
+
+            setPeliculas(respuesta.data);
+
+        } catch (error) {
+            setError(
+                error.response?.data?.mensaje ||
+                'No fue posible cargar las peliculas populares'
+            );
+
+            setPeliculas([]);
+
+        } finally {
+            setCargando(false);
+        }
+    };
 
     // Verificar la conexion al iniciar la aplicacion
     useEffect(() => {
@@ -42,6 +67,11 @@ function App() {
         };
 
         verificarConexion();
+    }, []);
+
+    // Cargar peliculas populares al abrir CineCampus
+    useEffect(() => {
+        cargarPeliculasPopulares();
     }, []);
 
     const mostrarError = (texto) => {
@@ -66,6 +96,7 @@ function App() {
             setCargando(true);
             setError('');
             setMensaje('');
+            setTituloCatalogo('Resultados de la busqueda');
 
             const respuesta = await api.get('/peliculas/buscar', {
                 params: { q: busqueda }
@@ -260,7 +291,9 @@ function App() {
         setVista('inicio');
         setError('');
         setMensaje('');
+        setBusqueda('');
         cancelarEdicion();
+        cargarPeliculasPopulares();
     };
 
     return (
@@ -357,7 +390,19 @@ function App() {
             <main>
                 {vista === 'inicio' && (
                     <section className="catalogo">
-                        <h2>Resultados de la busqueda</h2>
+                        <h2>{tituloCatalogo}</h2>
+
+                        {cargando && (
+                            <p className="mensaje">
+                                Cargando peliculas...
+                            </p>
+                        )}
+
+                        {!cargando && peliculas.length === 0 && !error && (
+                            <p className="mensaje">
+                                No hay peliculas para mostrar.
+                            </p>
+                        )}
 
                         <div className="peliculas">
                             {peliculas.map((pelicula) => (

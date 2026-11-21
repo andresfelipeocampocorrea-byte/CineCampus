@@ -3,6 +3,42 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
+// Consultar peliculas populares
+router.get('/populares', async (req, res) => {
+    try {
+        const respuesta = await axios.get(
+            'https://api.themoviedb.org/3/movie/popular',
+            {
+                params: {
+                    api_key: process.env.TMDB_API_KEY,
+                    language: 'es-CO',
+                    page: 1
+                }
+            }
+        );
+
+        const peliculas = respuesta.data.results.map(pelicula => ({
+            id: pelicula.id,
+            titulo: pelicula.title,
+            descripcion: pelicula.overview,
+            fecha: pelicula.release_date,
+            calificacion: pelicula.vote_average,
+            poster: pelicula.poster_path
+                ? `https://image.tmdb.org/t/p/w500${pelicula.poster_path}`
+                : null
+        }));
+
+        res.json(peliculas);
+
+    } catch (error) {
+        console.error(error.response?.data || error.message);
+
+        res.status(500).json({
+            mensaje: 'Error al consultar las peliculas populares de TMDB'
+        });
+    }
+});
+
 // Buscar peliculas por nombre
 router.get('/buscar', async (req, res) => {
     try {
